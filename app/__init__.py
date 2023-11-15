@@ -1,9 +1,6 @@
-def perform_operation(x, y, callback):
-    result = x + y
-    callback(result)
+from django.conf import settings
 
-def callback_function(result):
-    print(f"The result is: {result}")
-
-# Gọi hàm perform_operation và truyền callback_function làm đối số
-perform_operation(10, 20, callback_function)
+settings.configure(
+    DEBUG=True,
+    SECRET_KEY='your_secret_key',
+)
