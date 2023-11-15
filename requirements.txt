@@ -12,11 +12,12 @@ daphne==4.0.0
 Django==4.2.7
 django-cors-headers==4.3.0
 djangorestframework==3.14.0
+gunicorn==21.2.0
 hyperlink==21.0.0
 idna==3.4
 incremental==22.10.0
 msgpack==1.0.7
-mysqlclient==2.2.0
+packaging==23.2
 paho-mqtt==1.6.1
 Pillow==10.1.0
 psycopg2-binary==2.9.9
