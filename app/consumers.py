@@ -64,6 +64,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         client.subscribe("doamkhongkhi/iot/thang", qos=1)
         client.subscribe("nhietdo/iot/thang", qos=1)
+        client.subscribe("doamdat/iot/thang", qos=1)
+
         # client.publish("thang", payload="hot", qos=1)
 
 
