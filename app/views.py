@@ -5,11 +5,6 @@ from .models import Student
 # Create your views here.
 
 
-def getname(request):
-    s = Student.objects.all()
-    print(s)
-    return HttpResponse(s[1].name)
-
 
 # import paho.mqtt.client as paho
 

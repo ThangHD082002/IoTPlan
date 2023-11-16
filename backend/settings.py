@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-7jti=%-h3d=sy4-5wwbs67%4sdy^7muzoxt#+o=+nufi#m34w-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['iotplan.onrender.com', 'localhost:8000']
+ALLOWED_HOSTS = ['iotplan.onrender.com', '127.0.0.1']
 
 
 # Application definition
