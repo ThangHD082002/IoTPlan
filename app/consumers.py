@@ -56,7 +56,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
         # client.username_pw_set("django", "Thang123456")
         # client.connect("a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud", 8883)
-        client.connect('broker.hivemq.com', 8884)
+        client.connect('broker.hivemq.com', 8883)
         client.on_subscribe = on_subscribe
         
         client.on_publish = on_publish

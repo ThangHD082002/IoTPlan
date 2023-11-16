@@ -9,18 +9,21 @@ def on_publish(client, userdata, mid):
 client = paho.Client()
 client.on_publish = on_publish
 client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
-client.username_pw_set("django", "Thang123456")
-client.connect('a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud', 8883)
-# client.connect('broker.hivemq.com', 8884)
+# client.username_pw_set("django", "Thang123456")
+# client.connect('a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud', 8883)
+client.connect('broker.hivemq.com', 8883)
 
 client.loop_start()
 
 while True:
     temperature1 = random.uniform(18, 40)
     temperature2 = random.randint(65, 90)
+    temperature3 = random.randint(75, 90)
 
-    (rc, mid) = client.publish('nhietdo', str(temperature1 ) + " nhietdo", qos=1)
-    (rc, mid1) = client.publish('doam', str(temperature2) + " doam", qos=1)
+
+    (rc, mid) = client.publish('nhietdo/iot/thang', str(temperature1 ) + " nhietdo", qos=1)
+    (rc, mid1) = client.publish('doamkhongkhi/iot/thang', str(temperature2) + " doamkhongkhi", qos=1)
+    (rc, mid2) = client.publish('doamdat/iot/thang', str(temperature3) + " doamdat", qos=1)
     time.sleep(4)
 
 
