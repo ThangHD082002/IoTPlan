@@ -54,16 +54,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
         client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
         client.on_connect = on_connect
         client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
-        client.username_pw_set("django", "Thang123456")
-        client.connect("a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud", 8883)
-        # client.connect('broker.hivemq.com', 8883)
+        # client.username_pw_set("django", "Thang123456")
+        # client.connect("a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud", 8883)
+        client.connect('broker.hivemq.com', 8884)
         client.on_subscribe = on_subscribe
         
         client.on_publish = on_publish
         
 
-        client.subscribe("nhietdo", qos=1)
-        client.subscribe("doam", qos=1)
+        client.subscribe("doamkhongkhi/iot/thang", qos=1)
+        client.subscribe("nhietdo/iot/thang", qos=1)
         # client.publish("thang", payload="hot", qos=1)
 
 
