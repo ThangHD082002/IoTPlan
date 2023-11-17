@@ -45,26 +45,26 @@ def start_mqtt_thread(client):
 
 
 
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
+        self.client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
+        self.client.on_connect = on_connect
+        self.client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
+        # client.username_pw_set("django", "Thang123456")
+        # client.connect("a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud", 8883)
+        self.client.connect('broker.hivemq.com', 8883)
 
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
 
-        client = paho.Client(client_id="", userdata=None, protocol=paho.MQTTv5)
-        client.on_connect = on_connect
-        client.tls_set(tls_version=mqtt.client.ssl.PROTOCOL_TLS)
-        # client.username_pw_set("django", "Thang123456")
-        # client.connect("a612099c8cef47249fb4fc1f7cbcb44e.s2.eu.hivemq.cloud", 8883)
-        client.connect('broker.hivemq.com', 8883)
-        client.on_subscribe = on_subscribe
-        
-        client.on_publish = on_publish
+        self.client.on_subscribe = on_subscribe
+        self.client.on_publish = on_publish
         
 
-        client.subscribe("doamkhongkhi/iot/thang", qos=1)
-        client.subscribe("nhietdo/iot/thang", qos=1)
-        client.subscribe("doamdat/iot/thang", qos=1)
+        self.client.subscribe("doamkhongkhi/iot/thang", qos=1)
+        self.client.subscribe("nhietdo/iot/thang", qos=1)
+        self.client.subscribe("doamdat/iot/thang", qos=1)
 
         # client.publish("thang", payload="hot", qos=1)
 
@@ -84,7 +84,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         
         
         
-        mqtt_thread = start_mqtt_thread(client)
+        mqtt_thread = start_mqtt_thread(self.client)
 
 
         @sync_to_async
@@ -110,7 +110,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             asyncio.run(on_message(client, userdata, msg))
 
 
-        client.on_message = on_message_wrapper
+        self.client.on_message = on_message_wrapper
 
            
         
@@ -126,6 +126,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
         name = text_data_json['name']
 
+
+        
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -134,6 +137,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'name': name
             }
         )
+        print(message)
+        self.client.publish("tuoicay/iot/thang", payload=message, qos=1)
+        
+
+        
+        
+
 
     async def chat_message(self, event):
         message = event['message']

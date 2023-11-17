@@ -22,7 +22,7 @@ while True:
 
 
     (rc, mid) = client.publish('nhietdo/iot/thang', str(temperature1 ) + " nhietdo", qos=1)
-    (rc, mid1) = client.publish('doamkhongkhi/iot/thang', str(temperature2) + " doamkhongkhi", qos=1)
+    (rc, mid1) = client.publish('doamkhongkhi/iot/thang', str(temperature2) + " doam", qos=1)
     (rc, mid2) = client.publish('doamdat/iot/thang', str(temperature3) + " doamdat", qos=1)
     time.sleep(4)
 
