@@ -21,9 +21,9 @@ while True:
     temperature3 = random.randint(75, 90)
 
 
-    (rc, mid) = client.publish('nhietdo/iot/thang', str(temperature1 ) + " nhietdo", qos=1)
-    (rc, mid1) = client.publish('doamkhongkhi/iot/thang', str(temperature2) + " doam", qos=1)
-    (rc, mid2) = client.publish('doamdat/iot/thang', str(temperature3) + " doamdat", qos=1)
+    (rc, mid) = client.publish('sensor/iot/thang', str(temperature1 ) + " " + str(temperature2 ) + " " + str(temperature3), qos=1)
+    # (rc, mid1) = client.publish('doamkhongkhi/iot/thang', str(temperature2) + " doamkhongkhi", qos=1)
+    # (rc, mid2) = client.publish('doamdat/iot/thang', str(temperature3) + " doamdat", qos=1)
     time.sleep(4)
 
 

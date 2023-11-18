@@ -10,7 +10,6 @@ from asgiref.sync import sync_to_async
 import datetime
 
 
-
 def on_connect(client, userdata, flags, rc, properties=None):
     print("CONNACK received with code %s." % rc)
 
@@ -62,9 +61,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         self.client.on_publish = on_publish
         
 
-        self.client.subscribe("doamkhongkhi/iot/thang", qos=1)
-        self.client.subscribe("nhietdo/iot/thang", qos=1)
-        self.client.subscribe("doamdat/iot/thang", qos=1)
+        self.client.subscribe("sensor/iot/thang", qos=1)
 
         # client.publish("thang", payload="hot", qos=1)
 
@@ -139,7 +136,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         )
         print(message)
         self.client.publish("tuoicay/iot/thang", payload=message, qos=1)
-        
 
         
         
