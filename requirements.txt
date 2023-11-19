@@ -75,7 +75,7 @@ tensorflow-io-gcs-filesystem==0.31.0
 termcolor==2.3.0
 threadpoolctl==3.2.0
 Twisted==23.10.0
-twisted-iocpsupport==1.0.4
+# twisted-iocpsupport==1.0.4
 txaio==23.1.1
 typing_extensions==4.8.0
 tzdata==2023.3
