@@ -16,9 +16,9 @@ client.connect('broker.hivemq.com', 8883)
 client.loop_start()
 
 while True:
-    temperature1 = random.uniform(18, 40)
-    temperature2 = random.randint(65, 90)
-    temperature3 = random.randint(75, 90)
+    temperature1 = random.uniform(34, 35)
+    temperature2 = random.uniform(65, 90)
+    temperature3 = random.uniform(40, 70)
 
 
     (rc, mid) = client.publish('sensor/iot/thang', str(temperature1 ) + " " + str(temperature2 ) + " " + str(temperature3), qos=1)

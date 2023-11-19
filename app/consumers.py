@@ -9,6 +9,10 @@ from .models import Data
 from asgiref.sync import sync_to_async
 import datetime
 
+from tensorflow.keras.models import load_model
+from sklearn.preprocessing import StandardScaler
+import pandas as pd
+import joblib
 
 def on_connect(client, userdata, flags, rc, properties=None):
     print("CONNACK received with code %s." % rc)
@@ -59,6 +63,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         self.client.on_subscribe = on_subscribe
         self.client.on_publish = on_publish
+        self.y = 1
+        print("conecct")
         
 
         self.client.subscribe("sensor/iot/thang", qos=1)
@@ -86,13 +92,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         @sync_to_async
         def save_data_to_database(payload):
-            mess = {'message': str(payload)}
-            inputString = str(payload)
-            numeric_part = inputString[1:]
-            numeric_part = ''.join(char for char in numeric_part if char.isdigit() or char == '.')
-            numeric_value = float(numeric_part)
-            data = Data.objects.create(temperature=numeric_value)
-            data.save()
+            # mess = {'message': str(payload)}
+            # inputString = str(payload)
+            # numeric_part = inputString[1:]
+            # numeric_part = ''.join(char for char in numeric_part if char.isdigit() or char == '.')
+            # numeric_value = float(numeric_part)
+            # data = Data.objects.create(temperature=numeric_value)
+            # data.save()
             print(str(payload))
 
         async def on_message(client, userdata, msg):  
@@ -101,6 +107,35 @@ class ChatConsumer(AsyncWebsocketConsumer):
             now = datetime.datetime.now()
             data = str(str(msg.payload) + " " + str(now))
             mess = {'message': data}
+            numbers = [float(num) for num in msg.payload.decode('utf-8').split()]
+            rounded_numbers = [round(num, 1) for num in numbers]
+            nhietdoiot, doamiot, doamdatiot = rounded_numbers
+            if(self.y == "true auto"):
+                print(self.y, "tin hieu")
+                model = load_model('./app/iot.keras')
+                new_data = pd.DataFrame({'moisture': [doamdatiot*10], 'temp': [nhietdoiot]})
+
+                # Load lại scaler từ tệp đã lưu
+                scaler = joblib.load('./app/scaler.joblib')
+
+                # Chuẩn hóa dữ liệu mới
+                new_data_scaled = scaler.transform(new_data)
+
+                # Dự đoán với mô hình đã được load
+                prediction = model.predict(new_data_scaled)
+
+                # Chuyển đổi giá trị dự đoán thành nhãn (0 hoặc 1)
+                predicted_label = (prediction > 0.5).astype('int32')
+
+                # In kết quả dự đoán và nhãn
+                print(f'Prediction for new data: {predicted_label}')
+                x = str(predicted_label)
+                print("x ", x)
+                if(x == "[[1]]"):
+                    self.client.publish("tuoicay/iot/thang", payload="true water", qos=1)
+                else:
+                    self.client.publish("tuoicay/iot/thang", payload="false water", qos=1)
+            
             await self.send(text_data=json.dumps(mess))
 
         def on_message_wrapper(client, userdata, msg):
@@ -123,9 +158,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message = text_data_json['message']
         name = text_data_json['name']
 
-
         
-
         await self.channel_layer.group_send(
             self.room_group_name,
             {
@@ -134,8 +167,13 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'name': name
             }
         )
-        print(message)
+
+        # print(message , "receive")
+        self.y = message
         self.client.publish("tuoicay/iot/thang", payload=message, qos=1)
+        
+        # self.y = message
+        
 
         
         
