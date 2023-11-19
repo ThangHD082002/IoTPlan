@@ -4,7 +4,7 @@ set -o errexit
 
 pip install --upgrade pip setuptools
 pip install -r requirements.txt
-pip install tensorflow
+pip list
 
 python manage.py collectstatic --no-input
 python manage.py migrate
