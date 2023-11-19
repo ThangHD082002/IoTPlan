@@ -10,7 +10,6 @@ from asgiref.sync import sync_to_async
 import datetime
 
 from tensorflow.keras.models import load_model
-from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import joblib
 
