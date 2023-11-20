@@ -90,17 +90,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         @sync_to_async
         def save_data_to_database(payload):
-            data_string = str(payload)
-            cleaned_string = data_string[2:-1]
-            temperature, humidity, soil_moisture = map(float, cleaned_string.split())
-            now = datetime.datetime.now()
-            sensor_data = Sensor(
-                temperature=str(temperature),
-                humanlity=str(humidity),
-                soilMoisture=str(soil_moisture),
-                time=now
-            )
-            sensor_data.save()
+            # data_string = str(payload)
+            # cleaned_string = data_string[2:-1]
+            # temperature, humidity, soil_moisture = map(float, cleaned_string.split())
+            # now = datetime.datetime.now()
+            # sensor_data = Sensor(
+            #     temperature=str(temperature),
+            #     humanlity=str(humidity),
+            #     soilMoisture=str(soil_moisture),
+            #     time=now
+            # )
+            # sensor_data.save()
             print(str(payload))
 
         async def on_message(client, userdata, msg):  
