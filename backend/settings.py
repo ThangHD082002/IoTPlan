@@ -47,7 +47,8 @@ INSTALLED_APPS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Thay đổi thành origin của ứng dụng React của bạn
+    "http://localhost:3030",  # Thay đổi thành origin của ứng dụng React của bạn
+    "https://frontendiot.onrender.com"
 ]
 
 MIDDLEWARE = [

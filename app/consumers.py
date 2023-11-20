@@ -7,7 +7,7 @@ import time
 import asyncio
 from asgiref.sync import sync_to_async
 import datetime
-
+from .models import Sensor
 from tensorflow.keras.models import load_model
 import pandas as pd
 import joblib
@@ -90,13 +90,17 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         @sync_to_async
         def save_data_to_database(payload):
-            # mess = {'message': str(payload)}
-            # inputString = str(payload)
-            # numeric_part = inputString[1:]
-            # numeric_part = ''.join(char for char in numeric_part if char.isdigit() or char == '.')
-            # numeric_value = float(numeric_part)
-            # data = Data.objects.create(temperature=numeric_value)
-            # data.save()
+            data_string = str(payload)
+            cleaned_string = data_string[2:-1]
+            temperature, humidity, soil_moisture = map(float, cleaned_string.split())
+            now = datetime.datetime.now()
+            sensor_data = Sensor(
+                temperature=str(temperature),
+                humanlity=str(humidity),
+                soilMoisture=str(soil_moisture),
+                time=now
+            )
+            sensor_data.save()
             print(str(payload))
 
         async def on_message(client, userdata, msg):  
