@@ -5,7 +5,6 @@ from paho import mqtt
 from channels.generic.websocket import AsyncWebsocketConsumer
 import time
 import asyncio
-from .models import Data
 from asgiref.sync import sync_to_async
 import datetime
 

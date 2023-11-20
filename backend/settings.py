@@ -93,7 +93,7 @@ CHANNEL_LAYERS = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 #     }
 # }
 
@@ -112,10 +112,10 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        'NAME': 'iotdatabase',
-        'USER': 'iotdatabase_user',
-        'PASSWORD': 't48x62Bv5xDve9afaWtg7yQLFKEPORvv',
-        'HOST': 'dpg-clag7en8im3c73dgdqug-a.singapore-postgres.render.com',  # or the hostname where your MySQL server is running
+        'NAME': 'iotdatabase_4fhp',
+        'USER': 'iotdatabase_user_plan',
+        'PASSWORD': '1JukWaWTEZAJuPkSnCSUWkpMvAxHCUrI',
+        'HOST': 'dpg-cldj4qfgsrdc73fkm4sg-a.singapore-postgres.render.com',  # or the hostname where your MySQL server is running
         'PORT': '5432',      # or the port on which your MySQL server is listening
         'TIME_ZONE': 'Asia/Ho_Chi_Minh',
     }
