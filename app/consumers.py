@@ -90,22 +90,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
         @sync_to_async
         def save_data_to_database(payload):
-            # data_string = str(payload)
-            # cleaned_string = data_string[2:-1]
-            # temperature, humidity, soil_moisture = map(float, cleaned_string.split())
-            # now = datetime.datetime.now()
-            # sensor_data = Sensor(
-            #     temperature=str(temperature),
-            #     humanlity=str(humidity),
-            #     soilMoisture=str(soil_moisture),
-            #     time=now
-            # )
-            # sensor_data.save()
+            data_string = str(payload)
+            cleaned_string = data_string[2:-1]
+            temperature, humidity, soil_moisture = map(float, cleaned_string.split())
+            now = datetime.datetime.now()
+            sensor_data = Sensor(
+                temperature=str(temperature),
+                humanlity=str(humidity),
+                soilMoisture=str(soil_moisture),
+                time=now
+            )
+            sensor_data.save()
             print(str(payload))
 
         async def on_message(client, userdata, msg):  
             
-            await save_data_to_database(msg.payload)
             now = datetime.datetime.now()
             data = str(str(msg.payload) + " " + str(now))
             mess = {'message': data}
@@ -139,6 +138,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     self.client.publish("tuoicay/iot/thang", payload="false water", qos=1)
             
             await self.send(text_data=json.dumps(mess))
+            await save_data_to_database(msg.payload)
+            
 
         def on_message_wrapper(client, userdata, msg):
             asyncio.run(on_message(client, userdata, msg))
