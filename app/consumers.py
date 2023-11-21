@@ -89,15 +89,21 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
 
         @sync_to_async
-        def save_data_to_database(payload):
+        def save_data_to_database(payload, predicted_label):
             data_string = str(payload)
             cleaned_string = data_string[2:-1]
             temperature, humidity, soil_moisture = map(float, cleaned_string.split())
             now = datetime.datetime.now()
+            x = ""
+            if(predicted_label == "[[1]]"):
+                x = "on water"
+            else:
+                x = "off water"
             sensor_data = Sensor(
                 temperature=str(temperature),
                 humanlity=str(humidity),
                 soilMoisture=str(soil_moisture),
+                watering = x,
                 time=now
             )
             sensor_data.save()
@@ -136,9 +142,11 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     self.client.publish("tuoicay/iot/thang", payload="true water", qos=1)
                 else:
                     self.client.publish("tuoicay/iot/thang", payload="false water", qos=1)
+                await save_data_to_database(msg.payload, predicted_label)
             
             await self.send(text_data=json.dumps(mess))
-            await save_data_to_database(msg.payload)
+            
+            
             
 
         def on_message_wrapper(client, userdata, msg):
