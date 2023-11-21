@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 # Register your models here.
 
 class SensorAdmin(admin.ModelAdmin):
-    readonly_fields = ('temperature', 'humanlity', 'soilMoisture', 'time')
+    readonly_fields = ('time', )
 
     sortable_by = ('time', )
 
